@@ -1,0 +1,48 @@
+// 프로그램 사용자로 부터 10명의 사람 이름을 입력받아 오름차순, 내림차순 정렬하여 화면에 출력하는 프로그램
+
+// #define _CRT_SECURE_N0_WARNINGS // 시큐리티 워닝을 띄우지 마시오
+#include <stdio.h> // 프로그램 시작 전 표준 입출력 함수 포함
+#include <string.h> // 프로그램 시작 전 단어들에 활용할 수 있는 함수들 포함
+
+void main() // 프로그램 시작 점
+{
+	char name[10][10] = { "" }, temp[10] = ""; // 문자열 길이가 10개인 메모리를 name(10개) 과 temp를 만들고 모두 0 으로 초기화
+	int i = 0, j = 0, od = 0; // 정수형 메모리 i, j, od를 만들고 0으로 초기화
+
+	for (i = 0; i < 10; i++) // i에 0을 대입하고 1씩 증가하면서 9까지 반복
+	{
+		printf("사람 이름 입력 : "); // "사람 이름 입력 : "을 출력
+		gets_s(&name[i][0], sizeof(name[i])); // 입력받은 문자열을 name[i]번째 0번째의 주소로 배달, name[i]의 사이즈 크기로 정한다.
+	}
+
+	// 오름차순, 내림차순 입력 받기
+	printf("오름차순은 1번, 내림차순은 2번을 선택해주세요 : "); // "오름차순은 1번, 내림차순은 2번을 선택해주세요 : "를 출력
+	scanf_s("%d", &od); // 입력받은 정수를 od의 메모리 주소로 배달
+
+	for (j = 0; j < 10 - 1; j = j + 1) // j에 0을 대입하고 j에 1씩 증가하면서 8까지 반복
+	{
+		for (i = 0; i < 10 - 1; i = i + 1) // i에 0을 대입하고 i에 1씩 증가하면서 8까지 반복
+		{
+			// 오름차순
+			if (od == 1 && strcmp(name[i], name[i + 1]) > 0) // od의 값이 1과 같으면서 strcmp() 함수를 사용하여 문자열을 비교한 뒤 0 보다 크면
+			{
+				strcpy_s(temp, sizeof(name[i]), name[i]); // name[i]번 메모리에 있는 데이터를 temp에 복사
+				strcpy_s(name[i], sizeof(name[i]), name[i + 1]); // name[i + 1]번 메모리에 있는 데이터를 name[i]번 메모리로 복사
+				strcpy_s(name[i + 1], sizeof(name[i]), temp); // temp에 있는 데이터를 name [i + 1]번 메모리로 복사 // strcpy_s -> sizeof를 넣어줘야 한다.
+			}
+
+			// 내림차순
+			if (od == 2 && strcmp(name[i], name[i + 1]) < 0) // od의 값이 2와 같으면서 strcmp() 함수를 사용하여 문자열을 비교한 뒤 0 보다 작으면
+			{
+				strcpy_s(temp, sizeof(name[i]), name[i]); // name[i]번 메모리에 있는 데이터를 temp에 복사
+				strcpy_s(name[i], sizeof(name[i]), name[i + 1]); // name[i + 1]번 메모리에 있는 데이터를 name[i]번 메모리로 복사
+				strcpy_s(name[i + 1], sizeof(name[i]), temp); // temp에 있는 데이터를 name[i + 1]번 메모리로 복사
+			}
+		}
+	}
+
+	for (i = 0; i < 10; i++) // i에 0을 대입하고 1씩 증가하면서 9까지 반복
+	{
+		printf("%d: %s \n", i, &name[i][0]); // i와 name의 값 출력
+	}
+}
