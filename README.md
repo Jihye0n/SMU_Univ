@@ -1,2 +1,2 @@
-# SMU_Univ
+# Univ
 
